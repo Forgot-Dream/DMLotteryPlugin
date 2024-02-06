@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using BilibiliDM_PluginFramework;
 using DMLotteryPlugin.Views;
 using DispatcherPriority = System.Windows.Threading.DispatcherPriority;
@@ -17,18 +18,23 @@ namespace DMLotteryPlugin
             PluginVer = "v0.0.1";
             PluginDesc = "只有抽奖功能的工具";
             ReceivedDanmaku += DMLotteryPlugin_ReceivedDanmaku;
+            base.Start();
         }
 
         private void DMLotteryPlugin_ReceivedDanmaku(object sender, ReceivedDanmakuArgs e)
         {
-            _mainViewWindow?.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-            {
-                _mainViewWindow.ViewModel.OnPluginOnReceivedDanmaku(sender,e);
-            }));
+            _mainViewWindow?.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                new Action(() => { _mainViewWindow.ViewModel.OnPluginOnReceivedDanmaku(sender, e); }));
         }
 
         private void InitWindow()
         {
+            if (_mainViewWindow != null)
+            {
+                _mainViewWindow.Show();
+                return;
+            }
+
             _mainViewWindow = new MainView
             {
                 ViewModel =
@@ -37,9 +43,16 @@ namespace DMLotteryPlugin
                 }
             };
 
-            _mainViewWindow.Closed += (sender, args) => _mainViewWindow = null; //关闭窗口重新打开时候会丢失资源
+            _mainViewWindow.Closing += (sender, args) =>
+            {
+                _mainViewWindow.Visibility = Visibility.Hidden;
+                args.Cancel = true;
+            };
+
+            _mainViewWindow.InitializeComponent();
             _mainViewWindow.Show();
         }
+
         public override void Admin()
         {
             InitWindow();
@@ -53,7 +66,6 @@ namespace DMLotteryPlugin
 
         public override void Stop()
         {
-            _mainViewWindow?.Close();
             base.Stop();
         }
     }

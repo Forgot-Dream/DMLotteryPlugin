@@ -1,15 +1,15 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using DMLotteryPlugin.ViewModels;
 
 namespace DMLotteryPlugin.Views
 {
     /// <summary>
-    /// UserControl1.xaml 的交互逻辑
+    ///     UserControl1.xaml 的交互逻辑
     /// </summary>
     public partial class MainView : Window
     {
         public MainViewModel ViewModel = new MainViewModel();
+
         public MainView()
         {
             InitializeComponent();
@@ -25,6 +25,7 @@ namespace DMLotteryPlugin.Views
                 return;
             }
 
+            ViewModel.Reset();
             ViewModel.IsCounting = true;
             _setButtonStatus();
         }
@@ -33,9 +34,10 @@ namespace DMLotteryPlugin.Views
         {
             StartButton.IsEnabled = !ViewModel.IsCounting;
             StopButton.IsEnabled = ViewModel.IsCounting;
-            ResetButton.IsEnabled = ViewModel.IsCounting;
             CutHalfButton.IsEnabled = !ViewModel.IsCounting;
             FinishButton.IsEnabled = !ViewModel.IsCounting;
+            KeywordsTextBox.IsEnabled = !ViewModel.IsCounting;
+            NumberBox.IsEnabled = !ViewModel.IsCounting;
         }
 
         private void StopButton_OnClick(object sender, RoutedEventArgs e)
@@ -47,14 +49,12 @@ namespace DMLotteryPlugin.Views
 
         private void CutHalfButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var totalDmCount = ViewModel.LotteryDM.Count;
+            ViewModel.RandomCutHalf();
+        }
 
-            var random = new Random();
-
-            for (var i = 0; i <=(totalDmCount-1)/2; i++)
-            {
-                ViewModel.LotteryDM.RemoveAt(random.Next(0, totalDmCount - i));
-            }
+        private void FinishButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.DirectDraw();
         }
     }
 }
