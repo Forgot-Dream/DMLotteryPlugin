@@ -41,10 +41,6 @@ namespace DMLotteryPlugin.ViewModels
         public MainViewModel()
         {
             LotteryDmCollection = new ObservableCollection<LotteryDM>();
-
-            for (var i = 0; i < 10; i++)
-                LotteryDmCollection.Add(LotteryDM.Create(DateTime.Now, $"测试用户{i}", $"我是第{i}条弹幕"));
-
             IsCounting = false;
         }
 
@@ -107,6 +103,7 @@ namespace DMLotteryPlugin.ViewModels
 
             LotteryDmCollection.Add(LotteryDM.Create(DateTime.Now, userName, dm));
             Log($"{userName} 加入了抽奖");
+            Plugin.AddDM($"{userName} 加入了抽奖");
         }
 
         /// <summary>
