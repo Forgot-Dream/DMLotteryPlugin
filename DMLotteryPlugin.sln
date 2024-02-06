@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMLotteryPlugin", "DMLotteryPlugin\DMLotteryPlugin.csproj", "{CD65D5F4-A117-48E5-B232-CC91FE8A6C48}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CD65D5F4-A117-48E5-B232-CC91FE8A6C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD65D5F4-A117-48E5-B232-CC91FE8A6C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD65D5F4-A117-48E5-B232-CC91FE8A6C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD65D5F4-A117-48E5-B232-CC91FE8A6C48}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D9A81919-132D-4A04-B7C7-2FBAB2C4CF90}
+	EndGlobalSection
+EndGlobal

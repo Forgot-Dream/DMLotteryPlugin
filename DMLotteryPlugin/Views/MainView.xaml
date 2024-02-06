@@ -1,0 +1,87 @@
+﻿<Window
+    x:Class="DMLotteryPlugin.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:DMLotteryPlugin.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:DMLotteryPlugin.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewModels="clr-namespace:DMLotteryPlugin.ViewModels"
+    Title="弹幕抽奖助手"
+    Width="800"
+    Height="450"
+    d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
+    ui:WindowHelper.FixMaximizedWindow="True"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+                <!--  Other merged dictionaries here  -->
+            </ResourceDictionary.MergedDictionaries>
+            <!--  Other app resources here  -->
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="15" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
+        <ListView ItemsSource="{Binding LotteryDM}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceiveTime}" Header="统计时间" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="昵称" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="弹幕内容" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Border
+            Grid.Column="1"
+            Margin="5"
+            Background="Gray"
+            CornerRadius="2"
+            Opacity="0.5" />
+        <StackPanel Grid.Column="2">
+            <StackPanel
+                Margin="4"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="StartButton"
+                    Margin="4,0"
+                    Click="StartButton_Click"
+                    Content="开始统计" />
+                <Button
+                    x:Name="StopButton"
+                    Margin="4,0"
+                    Click="StopButton_OnClick"
+                    Content="停止统计" />
+                <Button
+                    x:Name="ResetButton"
+                    Margin="4,0"
+                    Content="清空统计" />
+                <Button
+                    x:Name="CutHalfButton"
+                    Margin="4,0"
+                    Click="CutHalfButton_OnClick"
+                    Content="响指" />
+                <Button
+                    x:Name="FinishButton"
+                    Margin="4,0"
+                    Content="一发入魂" />
+            </StackPanel>
+
+            <StackPanel Margin="4">
+                <TextBlock Margin="4" Text="抽奖弹幕关键词" />
+                <TextBox Text="{Binding DMKeywords}" />
+                <TextBlock Margin="4" Text="抽奖数量" />
+                <ui:NumberBox ValidationMode="InvalidInputOverwritten" Value="{Binding LotteryNum}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
