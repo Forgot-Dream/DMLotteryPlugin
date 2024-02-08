@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using DMLotteryPlugin.ViewModels;
 
 namespace DMLotteryPlugin.Views
@@ -55,6 +57,16 @@ namespace DMLotteryPlugin.Views
         private void FinishButton_OnClick(object sender, RoutedEventArgs e)
         {
             ViewModel.DirectDraw();
+        }
+
+        private void viewerOnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scrollViewer = sender as ScrollViewer;
+            if (e.Delta > 0)
+                scrollViewer.LineUp();
+            else
+                scrollViewer.LineDown();
+            e.Handled = true;
         }
     }
 }

@@ -32,9 +32,7 @@
         <ListView Margin="4" ItemsSource="{Binding LotteryDmCollection}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn
-                        DisplayMemberBinding="{Binding ReceiveTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
-                        Header="统计时间" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ReceiveTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" Header="统计时间" />
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="昵称" />
                     <GridViewColumn DisplayMemberBinding="{Binding Comment}" Header="弹幕内容" />
                 </GridView>
@@ -74,18 +72,23 @@
 
                 <StackPanel Margin="4">
                     <TextBlock Margin="4" Text="抽奖弹幕关键词" />
-                    <TextBox Text="{Binding DMKeywords}" x:Name="KeywordsTextBox" />
+                    <TextBox x:Name="KeywordsTextBox" Text="{Binding DMKeywords}" />
                     <TextBlock Margin="4" Text="抽奖数量" />
-                    <ui:NumberBox ValidationMode="InvalidInputOverwritten" Value="{Binding LotteryNum}"
-                                  x:Name="NumberBox" />
+                    <ui:NumberBox
+                        x:Name="NumberBox"
+                        ValidationMode="InvalidInputOverwritten"
+                        Value="{Binding LotteryNum}" />
                 </StackPanel>
             </StackPanel>
 
-            <TextBlock
+            <ScrollViewer
                 Grid.Row="1"
                 Margin="10"
-                Text="{Binding Logger}"
-                TextWrapping="Wrap" />
+                ui:ScrollViewerHelper.AutoHideScrollBars="True"
+                PreviewMouseWheel="viewerOnPreviewMouseWheel">
+                <TextBlock Text="{Binding Logger}" TextWrapping="Wrap" />
+            </ScrollViewer>
+
 
             <Border
                 Grid.Row="1"
