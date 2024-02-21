@@ -1,0 +1,56 @@
+name: Build and Upload
+
+on:
+  push:
+    branches:
+      - master
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        targetplatform: [x64]
+        Configuration: [Release]
+
+    runs-on: windows-latest
+
+    env:
+      # artifacts 命名 [名字]-[commit-hash]
+      artifactName: DMLotteryPlugin-${{ github.sha }}
+      appPackagesArchive: DMLotteryPlugin-${{ github.sha }}.zip
+
+      solutionPath: DMLotteryPlugin.sln
+      projectPath: DMLotteryPlugin
+      Configuration: Release
+      appPackagesDirectory: bin\Release
+
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore the Wpf application
+        run: nuget restore ${{ env.solutionPath }}
+
+      - name: Build wapproj
+        run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:Platform="Any CPU"
+
+      - name: Create archive
+        run: |
+          mkdir build
+          Move-Item -Path ${{ env.projectPath }}\${{ env.appPackagesDirectory }}\CommunityToolkit.Mvvm.dll -Destination build\CommunityToolkit.Mvvm.dll # CommunityToolkit.Mvvm.dll
+          Move-Item -Path ${{ env.projectPath }}\${{ env.appPackagesDirectory }}\DMLotteryPlugin.dll -Destination build\DMLotteryPlugin.dll  #DMLotteryPlugin.dll
+          Move-Item -Path ${{ env.projectPath }}\${{ env.appPackagesDirectory }}\ModernWpf.dll -Destination build\ModernWpf.dll # ModernWpf.dll
+          Move-Item -Path ${{ env.projectPath }}\${{ env.appPackagesDirectory }}\ModernWpf.Controls.dll -Destination build\ModernWpf.Controls.dll # ModernWpf.Controls.dll
+          Compress-Archive -Path build\*.dll -DestinationPath build\${{ env.appPackagesArchive }}
+      
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifactName }}
+          path: |
+            build/${{ env.appPackagesArchive }}
+          retention-days: 30
